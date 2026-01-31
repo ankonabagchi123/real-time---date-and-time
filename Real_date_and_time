@@ -1,0 +1,77 @@
+#include <stdio.h>
+#include <time.h>
+#include <conio.h>
+
+void main() {
+    int hour, minute, second, format = 24;
+    int date, month, year, day;
+
+    while (1) {
+        time_t now;
+        struct tm *current_time;
+
+        time(&now);
+        current_time = localtime(&now);
+
+        hour = current_time->tm_hour;
+        minute = current_time->tm_min;
+        second = current_time->tm_sec;
+        date = current_time->tm_mday;
+        month = current_time->tm_mon + 1;
+        year = current_time->tm_year + 1900;
+        day = current_time->tm_wday;
+        printf("Current Date: %02d-%02d-%04d\n", date, month, year);
+
+        // Display the day of the week
+        switch (day) {
+            case 0:
+                printf("Day: Sunday\n");
+                break;
+            case 1:
+                printf("Day: Monday\n");
+                break;
+            case 2:
+                printf("Day: Tuesday\n");
+                break;
+            case 3:
+                printf("Day: Wednesday\n");
+                break;
+            case 4:
+                printf("Day: Thursday\n");
+                break;
+            case 5:
+                printf("Day: Friday\n");
+                break;
+            case 6:
+                printf("Day: Saturday\n");
+                break;
+        }
+
+        printf("Time: ");
+
+        if (format == 12) {
+            if (hour == 0) {
+                printf("12:%02d:%02d AM\n", minute, second);
+            } else if (hour < 12) {
+                printf("%02d:%02d:%02d AM\n", hour, minute, second);
+            } else if (hour == 12) {
+                printf("%02d:%02d:%02d PM\n", hour, minute, second);
+            } else {
+                printf("%02d:%02d:%02d PM\n", hour - 12, minute, second);
+            }
+        } else {
+            printf("%02d:%02d:%02d\n", hour, minute, second);
+        }
+
+        printf("Press '1' to switch to 12-hour format, '2' to switch to 24-hour format: ");
+        int choice;
+        scanf("%d", &choice);
+        if (choice == 1) {
+            format = 12;
+        } else if (choice == 2) {
+            format = 24;
+        }
+
+        getch(); // wait for a key press
+    }
+}
